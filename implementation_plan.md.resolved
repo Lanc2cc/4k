@@ -1,0 +1,136 @@
+# 4K电影网站 — 完整项目开发计划
+
+## 项目概况
+
+基于需求文档构建4K电影网站，后端 Java 21 + Spring Boot + Maven，前端 Vue3 + Element Plus + Video.js，数据库 MySQL 5.7，电影数据来自 TMDB API。
+
+> [!IMPORTANT]
+> 每次子任务完成后自动 `git commit` + `git push` 到 https://github.com/Lanc2cc/4k.git
+
+---
+
+## 阶段一：后端项目搭建
+
+### 1.1 Spring Boot 项目初始化
+#### [NEW] `backend/` — Maven 多模块项目
+- 使用 Spring Initializr 创建项目（Java 21, Spring Boot 3.x）
+- 依赖：`spring-boot-starter-web`, `mybatis-plus`, `mysql-connector`, `lombok`, `hutool`
+- 配置 `application.yml`（数据源、端口、TMDB API密钥）
+
+### 1.2 数据库层（MyBatis-Plus）
+#### [NEW] `backend/src/main/java/.../entity/` — 实体类
+- 基于 [4kmovie_schema.sql](file:///c:/Users/lin/Desktop/4kmovie/4kmovie_schema.sql) 的14张表，生成对应实体类
+- `Movie`, `Genre`, `MovieGenre`, `Person`, `MovieCast`, `MovieCrew`, `MovieSource`
+- `User`, `UserHistory`, `UserFavorite`
+- `Advertisement`, `HotSearch`, `Activity`, `Danmu`
+
+#### [NEW] `backend/src/main/java/.../mapper/` — Mapper接口
+- 每张表对应一个 Mapper
+
+---
+
+## 阶段二：后端核心接口开发
+
+### 2.1 TMDB数据同步服务
+#### [NEW] `TmdbService.java`
+- 调用 TMDB API 拉取电影数据并存入本地数据库
+- 接口：`/movie/popular`, `/movie/{id}?append_to_response=credits`
+- 支持按语言分类拉取（zh/en/ja/ko等）
+
+### 2.2 电影API
+| 接口 | 方法 | 说明 |
+|------|------|------|
+| `/api/movie/list` | GET | 首页分类推荐列表（按语言分组） |
+| `/api/movie/popular` | GET | 热门电影列表（轮播图） |
+| `/api/movie/{id}` | GET | 电影详情（含演员、导演、播放源） |
+| `/api/movie/search` | GET | 搜索（按名称/导演/主演/标签模糊） |
+| `/api/movie/filter` | GET | 影库筛选（类型/语言/年份/评分/排序） |
+
+### 2.3 用户API
+| 接口 | 方法 | 说明 |
+|------|------|------|
+| `/api/user/register` | POST | 注册 |
+| `/api/user/login` | POST | 登录 |
+| `/api/user/history` | GET/POST | 观看历史（查询/添加更新进度） |
+| `/api/user/favorite` | GET/POST/DELETE | 收藏管理 |
+
+### 2.4 运营API
+| 接口 | 方法 | 说明 |
+|------|------|------|
+| `/api/ad/list` | GET | 广告列表（按位置筛选） |
+| `/api/hot-search` | GET | 热搜词列表 |
+| `/api/activity/list` | GET | 运营活动列表 |
+| `/api/danmu/{movieId}` | GET/POST | 弹幕查询/发送 |
+
+---
+
+## 阶段三：前端项目搭建
+
+### 3.1 Vue3 项目初始化
+#### [NEW] `frontend/` 
+- `npm create vue@latest` 初始化（Vue3 + Vue Router + Pinia）
+- 安装 Element Plus、Video.js、axios
+- 全局样式设计（暗色主题、4K高清定位风格）
+
+### 3.2 布局与路由
+| 路由 | 页面 | 对应需求 |
+|------|------|----------|
+| `/` | 首页 | 3.1 主界面 |
+| `/library` | 影库 | 3.2 影库界面 |
+| `/movie/:id` | 电影详情 | 3.3 详情页 |
+| `/play/:id` | 观影界面 | 3.4 观影界面 |
+| `/login` | 登录/注册 | 用户模块 |
+
+---
+
+## 阶段四：前端页面开发
+
+### 4.1 首页（§3.1）
+- 顶部导航栏（LOGO、导航菜单、搜索框、历史记录、登录入口）
+- 轮播图组件（5-8轮，5秒自动切换，广告插入）
+- 分类推荐区（按语言分组，网格布局，加载更多）
+- 优质片源推荐 + 运营活动横幅
+
+### 4.2 影库页面（§3.2）
+- 可折叠筛选侧边栏（类型/语言/年份/评分/排序）
+- 电影网格列表（PC 4列, 平板 3列, 手机 2列）
+- hover 效果（快速播放、简介、收藏）
+- 加载更多分页
+
+### 4.3 电影详情页（§3.3）
+- 封面 + 核心信息展示（评分、导演、主演、标签等）
+- 可折叠剧情简介
+- 播放资源选择列表
+- 相关推荐（同类型/同国家 6部）
+- 收藏与分享按钮
+
+### 4.4 观影界面（§3.4）
+- Video.js 播放器（4K适配、倍速、全屏、进度条）
+- 播放记忆（登录用户自动续播）
+- 切换资源下拉框
+- 弹幕功能（可选，开关/发送/样式设置）
+- 播放前15秒广告
+
+---
+
+## 阶段五：联调与完善
+
+- 前后端联调测试
+- 响应式适配（PC/平板/手机）
+- 异常处理与加载状态
+- TMDB数据初始化（首批拉取热门电影入库）
+
+---
+
+## 执行顺序
+
+```
+阶段一 → 阶段二 → 阶段三 → 阶段四 → 阶段五
+后端搭建  后端接口  前端搭建  前端页面  联调完善
+```
+
+## 验证计划
+
+- 后端：每个接口用 curl/Postman 验证
+- 前端：浏览器实际预览，验证页面交互
+- 集成：前后端联调，验证完整用户流程

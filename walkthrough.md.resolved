@@ -1,0 +1,34 @@
+# 4K电影网站数据库设计 — 完成总结
+
+## 完成内容
+
+根据需求文档和TMDB API真实数据结构，创建了 [4kmovie_schema.sql](file:///c:/Users/lin/Desktop/4kmovie/4kmovie_schema.sql)，共14张MySQL表：
+
+### 电影模块（7张表 — 数据来自TMDB API）
+| 表名 | 用途 |
+|------|------|
+| `movie` | 电影主表（标题、海报、评分、时长等） |
+| `genre` | 类型字典（动作、科幻、剧情等） |
+| `movie_genre` | 电影↔类型 多对多关联 |
+| `person` | 演员/导演人员信息 |
+| `movie_cast` | 电影↔演员关联（含角色名、排序） |
+| `movie_crew` | 电影↔幕后人员关联（导演等） |
+| `movie_source` | 播放线路表（本站管理，非TMDB） |
+
+### 用户模块（3张表）
+| 表名 | 用途 |
+|------|------|
+| `user` | 用户账号 |
+| `user_history` | 观看历史（含进度记忆） |
+| `user_favorite` | 电影收藏 |
+
+### 运营模块（4张表）
+| 表名 | 用途 |
+|------|------|
+| `advertisement` | 广告（轮播/横幅/原生/播前） |
+| `hot_search` | 热搜词 |
+| `activity` | 运营活动 |
+| `danmu` | 弹幕 |
+
+## 验证结果
+- ✅ Git 提交成功：`dbdcf7a`
