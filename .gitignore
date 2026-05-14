@@ -29,6 +29,9 @@ dist/
 Thumbs.db
 desktop.ini
 
+# === Claude Code ===
+.claude/
+
 # === Sensitive config (contains credentials) ===
 application.yml
 application-*.yml
