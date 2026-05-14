@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #0f0f0f;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+:root {
+  --primary-color: #e50914;
+  --bg-color: #0f0f0f;
+  --card-bg: #1a1a2e;
+  --text-color: #ffffff;
+  --text-secondary: #b3b3b3;
+  --border-color: #333;
+}
+
+/* Element Plus 暗色主题覆盖 */
+.el-menu {
+  background-color: #141414 !important;
+  border: none !important;
+}
+
+.el-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.el-pagination {
+  --el-pagination-bg-color: transparent !important;
+  --el-pagination-text-color: var(--text-color) !important;
+  --el-pagination-button-color: var(--text-color) !important;
+}

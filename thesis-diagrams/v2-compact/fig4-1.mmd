@@ -1,0 +1,11 @@
+flowchart LR
+  U[用户] --> F[前端]
+  F --> I[鉴权拦截]
+  I --> C[Controller]
+  C --> S[Service]
+  S --> M[Mapper]
+  M --> DB[(MySQL)]
+  S <--> RD[(Redis)]
+  S <--> TM[TMDB]
+  I -.401/403.-> F
+  C -.统一结果.-> F

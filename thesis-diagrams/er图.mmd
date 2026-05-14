@@ -1,0 +1,83 @@
+erDiagram
+    USER ||--o{ COMMENT : "发布"
+    USER ||--o{ FAVORITE : "收藏"
+    USER ||--o{ WATCH_HISTORY : "观看"
+    MOVIE ||--o{ COMMENT : "被评论"
+    MOVIE ||--o{ FAVORITE : "被收藏"
+    MOVIE ||--o{ WATCH_HISTORY : "被观看"
+    MOVIE ||--o{ MOVIE_SOURCE : "拥有"
+    MOVIE }o--|| CATEGORY : "属于"
+    
+    USER {
+        int id PK
+        string username
+        string password
+        string nickname
+        string email
+        string avatar
+        int role
+        int status
+        datetime create_time
+        datetime update_time
+    }
+    
+    CATEGORY {
+        int id PK
+        string name
+        datetime create_time
+        datetime update_time
+    }
+    
+    MOVIE {
+        int id PK
+        string movie_name
+        string original_title
+        string overview
+        string poster_path
+        string backdrop_path
+        string release_year
+        string release_date
+        decimal vote_average
+        int vote_count
+        decimal popularity
+        int tmdb_id
+        int category_id FK
+        int status
+        datetime create_time
+        datetime update_time
+    }
+    
+    MOVIE_SOURCE {
+        int id PK
+        int movie_id FK
+        string source_name
+        string source_url
+        string quality
+        datetime create_time
+    }
+    
+    COMMENT {
+        int id PK
+        int user_id FK
+        int movie_id FK
+        string content
+        int status
+        datetime create_time
+        datetime update_time
+    }
+    
+    FAVORITE {
+        int id PK
+        int user_id FK
+        int movie_id FK
+        datetime create_time
+    }
+    
+    WATCH_HISTORY {
+        int id PK
+        int user_id FK
+        int movie_id FK
+        string play_time
+        datetime create_time
+        datetime update_time
+    }

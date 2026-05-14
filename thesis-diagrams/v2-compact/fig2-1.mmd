@@ -1,0 +1,25 @@
+flowchart TB
+  subgraph FE[前端]
+    FE1[页面组件]
+    FE2[Router+Pinia]
+    FE3[Axios封装]
+  end
+
+  subgraph BE[后端]
+    BE1[Controller]
+    BE2[Service]
+    BE3[Interceptor]
+    BE4[Mapper]
+  end
+
+  subgraph DS[数据与外部]
+    DB[(MySQL)]
+    RD[(Redis)]
+    TM[TMDB API]
+  end
+
+  FE1 --> FE3
+  FE2 --> FE3
+  FE3 --> BE3 --> BE1 --> BE2 --> BE4 --> DB
+  BE2 <--> RD
+  BE2 <--> TM

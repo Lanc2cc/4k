@@ -1,0 +1,36 @@
+sequenceDiagram
+  autonumber
+  participant U as 用户
+  participant FE as 前端(Vue3)
+  participant BE as 后端(UserController)
+  participant INT as 登录拦截器
+  participant DB as MySQL
+
+  U->>FE: 输入用户名/密码并点击登录
+  FE->>BE: POST /api/user/login
+  BE->>DB: 查询用户信息
+  DB-->>BE: 返回账号与密码哈希
+  BE->>BE: 校验密码与账号状态
+
+  alt 登录成功
+    BE->>BE: 生成JWT(token)
+    BE-->>FE: code=200 + token + role
+    FE->>FE: 保存token到localStorage
+  else 登录失败
+    BE-->>FE: code!=200 + 错误信息
+  end
+
+  U->>FE: 访问个人中心/后台页
+  FE->>FE: 路由守卫检查token与role
+  FE->>INT: 携带Authorization请求受保护接口
+
+  alt token有效且权限通过
+    INT->>BE: 放行请求
+    BE-->>FE: 返回业务数据
+  else token失效或未登录
+    INT-->>FE: 401 未登录/已过期
+    FE->>FE: 清理登录态并跳转登录页
+  else 角色不足
+    INT->>BE: 请求到达管理员接口
+    BE-->>FE: 403 无管理员权限
+  end

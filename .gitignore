@@ -1,0 +1,45 @@
+# === Maven ===
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+*.jar
+*.war
+*.nar
+
+# === Node ===
+node_modules/
+dist/
+*.local
+.vite
+
+# === IDE ===
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# === OS ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Sensitive config (contains credentials) ===
+application.yml
+application-*.yml
+!application.example.yml
+api.md
+
+# === Logs ===
+*.log
+logs/
+
+# === Misc ===
+*.zip
+*.tar.gz
+*.tmp
